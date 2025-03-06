@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<head>
+    <title>Игровые комнаты</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.header, .footer {
+    background-color: rgb(9, 130, 41);
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 25px;
+}
+
+.main-content {
+    display: flex;
+    flex: 1;
+}
+
+.sidebar {
+    background-color: rgba(255, 255, 0, 0.755);
+    width: 330px;
+    padding: 20px;
+    font-size: 25px;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin-bottom: 10px;
+}
+
+
+.content {
+    flex: 1;
+    padding: 20px;
+    font-size: 30px;
+}
+
+.content img {
+    float: left;
+    margin: 30px;
+    width: 390px;
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        order: 2;
+    }
+
+    .content {
+        order: 1;
+    }
+
+    .content img {
+        float: none;
+        width: 100%;
+        margin: 0;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h2>ЛУЧШИЕ РАЗВЛЕЧЕНИЯ ДЛЯ ДЕТЕЙ</h2>
+        </header>
+        <div class="main-content">
+            <aside class="sidebar">
+                <h3>Игровые комнаты</h3>
+                <ul>
+                    <li><a href="https://family.by/spravka/shop/trc/12320-torgovo-razvlekatelnyy-centr-arenacity.html">ARENAcity</a></li>
+                    <li><a href="https://www.titanminsk.by/">ТРЦ «Титан»</a></li>
+                    <li><a href="https://dana-mall.com/">ТРЦ «Dana Mall»</a></li>
+                    <li><a href="https://galleria-minsk.by/">ТРЦ «Galleria Minsk»</a></li>
+                    <li><a href="https://tivali.by/">ТРЦ «Тивали»</a></li>
+                    <li><a href="https://www.tczamok.by/">ТРЦ «Замок»</a></li>
+                    <li><a href="https://diamondcity.by/">ТРЦ «Diamond City»</a></li>
+                    <li><a href="https://palazzo.by/">ТРЦ Palazzo</a></li>
+                    <li><a href="https://tc-stolica.by/">ТРЦ «Столица»</a></li>
+                    <li><a href="https://momo-center.by/">ТРЦ «МОМО»</a></li>
+                    <li><a href="https://greencityminsk.by/">ТРЦ Green City</a></li>
+                </ul>
+            </aside>
+            <main class="content">
+                <h2 align="center">Детские развлекательные центры</h2>
+                <img src="images/2.jpg" alt="Детский развлекательный центр">
+                <p>Развлекательные торговые центры в Минске – отличный вариант совместить приятное с полезным. Если быть точнее, то это удобное место для шопинга и детского отдыха.</p>
+                <p>Пока взрослые неспешно гуляют по магазинам и выбирают нужные товары, дети весело проводят время, отдыхают и развлекаются в полной безопасности. Мы решили изучить все ТРЦ Минска и рассказываем, где есть интересные детские и игровые зоны. Топ-11 торгово-развлекательных центров Минска, где дети точно не будут скучать, пока родители ходят по магазинам.</p>
+            </main>
+        </div>
+        <footer class="footer">
+            <h2>КУДА СХОДИТЬ С РЕБЕНКОМ</h2>
+        </footer>
+    </div>
+</body>
+</html>
