@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dynamic Dropdown Menu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        #main-menu {
+            display: flex;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+        
+        .menu-item {
+            position: relative;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-right: 1px solid #ccc;
+        }
+        
+        .menu-item:hover {
+            background-color: #ddd;
+        }
+        
+        .menu-item:last-child {
+            border-right: none;
+        }
+        
+        .submenu {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 100%;
+            background-color: #f9f9f9;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            border-radius: 0 0 5px 5px;
+        }
+        
+        .submenu li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .submenu li:last-child {
+            border-bottom: none;
+        }
+        
+        .submenu li:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .submenu a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+        }
+        
+        .has-submenu::after {
+            content: " ▼";
+            font-size: 0.8em;
+        }
+        
+        .active {
+            background-color: #ddd;
+        }
+        
+        .active .submenu {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dynamic Dropdown Menu</h1>
+    
+    <div id="menu-container"></div>
+    
+    <script>
+        var MenuA = [
+            {name:'Пункт 1', submenu: 
+                [ 
+                    {name: 'Пункт 1.1', submenu: 
+                        [ 
+                            {name:'Пункт 1.1.1', url: 'http://www.av.by'},
+                            {name:'Пункт 1.1.2 длинный', url: 'http://www.av.by'} 
+                        ] 
+                    }, 
+                    {name:'Пункт 1.2', url: 'http://www.av.by'}, 
+                    {name:'Пункт 1.3 длинный', submenu: 
+                        [ 
+                            {name:'Пункт 1.3.1', url: 'http://www.av.by'},
+                            {name:'Пункт 1.3.2', url: 'http://www.av.by'},
+                            {name:'Пункт 1.3.3', url: 'http://www.av.by'},
+                            {name:'Пункт 1.3.4 длинный', url: 'http://www.av.by'} 
+                        ] 
+                    } 
+                ] 
+            }, 
+            {name: 'Пункт 2 длинный', url: 'http://www.av.by'}, 
+            {name:'Пункт 3', submenu: 
+                [ 
+                    {name:'Пункт 3.1 длинный', url: 'http://www.av.by'}, 
+                    {name:'Пункт 3.2', url: 'http://www.av.by'} 
+                ] 
+            } 
+        ];
+        
+        function ShowMenu(MenuItemsA, ParentElem) {
+            // Create menu container
+            var menu = document.createElement('ul');
+            
+            // Set class based on parent element
+            if (ParentElem.id === 'menu-container') {
+                menu.id = 'main-menu';
+            } else {
+                menu.className = 'submenu';
+            }
+            
+            // Add menu items
+            MenuItemsA.forEach(function(item) {
+                var li = document.createElement('li');
+                li.className = 'menu-item';
+                
+                if (item.submenu) {
+                    li.classList.add('has-submenu');
+                    
+                    var span = document.createElement('span');
+                    span.textContent = item.name;
+                    li.appendChild(span);
+                    
+                    li.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        
+                        // Close all other open menus at this level
+                        var siblings = this.parentNode.children;
+                        for (var i = 0; i < siblings.length; i++) {
+                            if (siblings[i] !== this) {
+                                siblings[i].classList.remove('active');
+                            }
+                        }
+                        
+                        // Toggle current menu
+                        this.classList.toggle('active');
+                    });
+                    
+                    // Create submenu
+                    ShowMenu(item.submenu, li);
+                } else {
+                    var a = document.createElement('a');
+                    a.textContent = item.name;
+                    a.href = item.url || '#';
+                    li.appendChild(a);
+                }
+                
+                menu.appendChild(li);
+            });
+            
+            ParentElem.appendChild(menu);
+        }
+        
+        // Initialize the menu when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            var container = document.getElementById('menu-container');
+            ShowMenu(MenuA, container);
+        });
+    </script>
+</body>
+</html>

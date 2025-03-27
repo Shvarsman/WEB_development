@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Игровые комнаты – Бронирование атракционов</title>
+</head>
+<body>
+  <form id="myForm"></form>
+
+  <script>
+    var FormA = [
+      { label: 'Имя клиента:', elemtype: 'text1line', name: 'customerName', width: 250 },
+      { label: 'Выберите атракцион:', elemtype: 'select', name: 'autopart', options: ['Комната страха', 'Американские горки', 'Картинг', 'Симулятор', 'Хокей'] },
+      { label: 'Количество часов:', elemtype: 'number', name: 'quantity', width: 80 },
+      { label: 'Согласие на обработку данных:', elemtype: 'check', name: 'consent' },
+      { label: 'Забронировать:', elemtype: 'button', name: 'submit', value: 'Забронировать' }
+    ];
+
+    function createFormFields(formElements, formId) {
+      var form = document.getElementById(formId);
+      if (!form) {
+        console.error("Форма с id '" + formId + "' не найдена.");
+        return;
+      }
+      form.innerHTML = '';
+
+      formElements.forEach(function(item) {
+        var fieldContainer = document.createElement('div');
+
+        if (item.label) 
+        {
+          var label = document.createElement('label');
+          label.textContent = item.label;
+          fieldContainer.appendChild(label);
+        }
+
+        var input;
+        switch (item.elemtype) {
+          case 'text1line':
+            input = document.createElement('input');
+            input.type = 'text';
+            if (item.width) {
+              input.style.width = item.width + 'px';
+            }
+            break;
+          case 'number':
+            input = document.createElement('input');
+            input.type = 'number';
+            if (item.width) {
+              input.style.width = item.width + 'px';
+            }
+            break;
+          case 'check':
+            input = document.createElement('input');
+            input.type = 'checkbox';
+            break;
+          case 'button':
+            input = document.createElement('input');
+            input.type = 'button';
+            if (item.value) {
+              input.value = item.value;
+            }
+            break;
+          case 'select':
+            input = document.createElement('select');
+            
+            var defaultOption = document.createElement('option');
+            defaultOption.textContent = "Выберите";
+            defaultOption.value = "";
+            input.appendChild(defaultOption);
+
+            if (item.options && Array.isArray(item.options)) 
+            {
+              item.options.forEach(function(opt) {
+                var option = document.createElement('option');
+                option.textContent = opt;
+                option.value = opt;
+                input.appendChild(option);
+              });
+            }
+
+            break;
+          default:
+            console.error("Неизвестный тип элемента: " + item.elemtype);
+            return;
+        }
+
+        if (item.name) {
+          input.name = item.name;
+        }
+        
+        input.dataset.elemtype = item.elemtype;
+
+        
+        if (input.type !== "button") {
+          input.addEventListener("input", function() {
+            validateFieldByElement(this);
+          });
+        }
+
+        fieldContainer.appendChild(input);
+        form.appendChild(fieldContainer);
+      });
+
+      var submitButton = form.querySelector("input[type='button']");
+
+      if (submitButton) {
+        submitButton.addEventListener("click", function(e) {
+          e.preventDefault();
+          validateAllFields(form);
+        });
+      }
+    }
+
+    function validateFieldByElement(input) {
+      var errorMsg = "";
+      var type = input.dataset.elemtype;
+      
+      if (type === "text1line") 
+      {
+        if (input.value.trim().length < 3) 
+        {
+          errorMsg = "Введите минимум 3 символа";
+        }
+      } else if (type === "number") 
+      {
+        var quantity = parseInt(input.value, 10);
+
+        if (isNaN(quantity) || quantity <= 0)
+        {
+          errorMsg = "Введите корректное количество (> 0)";
+        }
+      } else if (type === "select") {
+        if (input.value === "") {
+          errorMsg = "Выберите атракцион";
+        }
+      } else if (type === "check") {
+        if (!input.checked) {
+          errorMsg = "Необходимо дать согласие";
+        }
+      }
+
+      var container = input.parentNode;
+      var errorSpan = container.querySelector(".error");
+
+      if (errorMsg) {
+        if (!errorSpan) {
+          errorSpan = document.createElement("span");
+          errorSpan.className = "error";
+          errorSpan.style.color = "red";
+          errorSpan.style.marginLeft = "10px";
+          container.appendChild(errorSpan);
+        }
+        errorSpan.textContent = errorMsg;
+      } else {
+        if (errorSpan) {
+          container.removeChild(errorSpan);
+        }
+      }
+
+      return errorMsg;
+    }
+
+    function validateAllFields(form) {
+      var inputs = form.querySelectorAll("input, select");
+      var allValid = true;
+      inputs.forEach(function(input) {
+        if (input.type !== "button") {
+          var err = validateFieldByElement(input);
+          if (err) {
+            allValid = false;
+          }
+        }
+      });
+      if (allValid) {
+        alert("Успешно забронировано!");
+      } else {
+        alert("Обнаружены ошибки в форме. Проверьте поля.");
+      }
+    }
+
+    createFormFields(FormA, 'myForm');
+  </script>
+</body>
+</html>
