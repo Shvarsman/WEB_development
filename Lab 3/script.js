@@ -49,3 +49,5 @@ function GetGameInfo() {
 function ListAllGames() {
     console.log(ListValues());
 }
+
+
