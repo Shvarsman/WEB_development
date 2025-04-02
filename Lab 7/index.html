@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мое SPA приложение</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        nav {
+            margin-bottom: 20px;
+        }
+        
+        nav button {
+            padding: 10px 15px;
+            margin-right: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        nav button:hover {
+            background-color: #45a049;
+        }
+        
+        .page {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        h1 {
+            color: #333;
+        }
+        
+        button {
+            padding: 10px 15px;
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        button:hover {
+            background-color: #007B9E;
+        }
+        
+        ul {
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <nav>
+            <button onclick="showPage('home')">Главная</button>
+            <button onclick="showPage('subject')">Предметная область</button>
+        </nav>
+        <div id="pages">
+            <div id="home-page" class="page active">
+                <h1>Добро пожаловать в мое SPA приложение!</h1>
+                <p>Это одностраничное приложение демонстрирует работу с несколькими "страницами" без перезагрузки.</p>
+                <p>Нажмите кнопку ниже, чтобы перейти к информации по предметной области.</p>
+                <button onclick="showPage('subject')">Перейти к предметной области</button>
+            </div>
+            <div id="subject-page" class="page">
+                <h1>Детские развлекательные центры</h1>
+                <p>В нашем центре найдутся развлечения для самых маленьких, но под присмотром родителей.</p>
+                <h2>Основные понятия</h2>
+                <ul>
+                    <li><a href="https://family.by/spravka/shop/trc/12320-torgovo-razvlekatelnyy-centr-arenacity.html">ARENAcity</a></li>
+                    <li><a href="https://www.titanminsk.by/">ТРЦ «Титан»</a></li>
+                    <li><a href="https://dana-mall.com/">ТРЦ «Dana Mall»</a></li>
+                    <li><a href="https://galleria-minsk.by/">ТРЦ «Galleria Minsk»</a></li>
+                    <li><a href="https://tivali.by/">ТРЦ «Тивали»</a></li>
+                    <li><a href="https://www.tczamok.by/">ТРЦ «Замок»</a></li>
+                    <li><a href="https://diamondcity.by/">ТРЦ «Diamond City»</a></li>
+                    <li><a href="https://palazzo.by/">ТРЦ Palazzo</a></li>
+                    <li><a href="https://tc-stolica.by/">ТРЦ «Столица»</a></li>
+                    <li><a href="https://momo-center.by/">ТРЦ «МОМО»</a></li>
+                    <li><a href="https://greencityminsk.by/">ТРЦ Green City</a></li>
+                </ul>
+                <h2>Важные аспекты</h2>
+                <p>Пока взрослые неспешно гуляют по магазинам и выбирают нужные товары, дети весело проводят время, отдыхают и развлекаются в полной безопасности. Мы решили изучить все ТРЦ Минска и рассказываем, где есть интересные детские и игровые зоны. Топ-11 торгово-развлекательных центров Минска, где дети точно не будут скучать, пока родители ходят по магазинам.</p>
+                <button onclick="showPage('home')">Вернуться на главную</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

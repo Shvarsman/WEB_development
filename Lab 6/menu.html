@@ -1,69 +1,79 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <title>Dynamic Dropdown Menu</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Горизонтальное меню с подменю</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
             padding: 20px;
         }
         
-        #main-menu {
-            display: flex;
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-            background-color: #f0f0f0;
+        nav {
+            background-color: #f8f9fa;
+            padding: 10px;
             border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .horizontal-menu {
+            list-style: none;
+            display: flex;
         }
         
         .menu-item {
             position: relative;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-right: 1px solid #ccc;
+            margin-right: 15px;
         }
         
-        .menu-item:hover {
-            background-color: #ddd;
-        }
-        
-        .menu-item:last-child {
-            border-right: none;
-        }
-        
-        .submenu {
-            display: none;
-            position: absolute;
-            left: 0;
-            top: 100%;
-            background-color: #f9f9f9;
-            min-width: 200px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-            border-radius: 0 0 5px 5px;
-        }
-        
-        .submenu li {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        .submenu li:last-child {
-            border-bottom: none;
-        }
-        
-        .submenu li:hover {
-            background-color: #e0e0e0;
-        }
-        
-        .submenu a {
+        .menu-item a, .menu-item div {
+            display: block;
+            padding: 8px 15px;
             text-decoration: none;
             color: #333;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            transition: all 0.3s;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        
+        .menu-item a:hover, .menu-item div:hover {
+            background-color: #dee2e6;
+        }
+        
+        .vertical-menu {
+            display: none;
+            position: absolute;
+            list-style: none;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border-radius: 4px;
+            z-index: 100;
+            padding: 5px 0;
+            top: 100%;
+            left: 0;
+        }
+        
+        .vertical-menu.right {
+            left: 100%;
+            top: 0;
+        }
+        
+        .vertical-menu.bottom {
+            top: 100%;
+            left: 0;
+        }
+        
+        .menu-item:hover > .vertical-menu {
             display: block;
         }
         
@@ -72,92 +82,89 @@
             font-size: 0.8em;
         }
         
-        .active {
-            background-color: #ddd;
-        }
-        
-        .active .submenu {
-            display: block;
+        .vertical-menu .has-submenu::after {
+            content: " ►";
+            float: right;
         }
     </style>
 </head>
 <body>
-    <h1>Dynamic Dropdown Menu</h1>
-    
-    <div id="menu-container"></div>
-    
+    <nav>
+        <ul class="horizontal-menu" id="mainMenu"></ul>
+    </nav>
+
     <script>
-        var MenuA = [
-            {name:'Пункт 1', submenu: 
-                [ 
-                    {name: 'Пункт 1.1', submenu: 
-                        [ 
-                            {name:'Пункт 1.1.1', url: 'http://www.av.by'},
-                            {name:'Пункт 1.1.2 длинный', url: 'http://www.av.by'} 
-                        ] 
-                    }, 
-                    {name:'Пункт 1.2', url: 'http://www.av.by'}, 
-                    {name:'Пункт 1.3 длинный', submenu: 
-                        [ 
-                            {name:'Пункт 1.3.1', url: 'http://www.av.by'},
-                            {name:'Пункт 1.3.2', url: 'http://www.av.by'},
-                            {name:'Пункт 1.3.3', url: 'http://www.av.by'},
-                            {name:'Пункт 1.3.4 длинный', url: 'http://www.av.by'} 
-                        ] 
-                    } 
-                ] 
-            }, 
-            {name: 'Пункт 2 длинный', url: 'http://www.av.by'}, 
-            {name:'Пункт 3', submenu: 
-                [ 
-                    {name:'Пункт 3.1 длинный', url: 'http://www.av.by'}, 
-                    {name:'Пункт 3.2', url: 'http://www.av.by'} 
-                ] 
-            } 
-        ];
-        
-        function ShowMenu(MenuItemsA, ParentElem) {
-            // Create menu container
-            var menu = document.createElement('ul');
-            
-            // Set class based on parent element
-            if (ParentElem.id === 'menu-container') {
-                menu.id = 'main-menu';
-            } else {
-                menu.className = 'submenu';
+        const MenuA = [
+            {
+                name: 'Маленькие',
+                submenu: [
+                    {
+                        name: 'Центр',
+                        submenu: [
+                            { name: 'ТРЦ «Galleria Minsk»', url: 'https://galleria-minsk.by/' },
+                            { name: 'ТРЦ «Замок»', url: 'https://www.tczamok.by/' }
+                        ]
+                    },
+                    { name: 'ТРЦ Palazzo', url: 'https://palazzo.by/' },
+                    {
+                        name: 'Окраина',
+                        submenu: [
+                            { name: 'ТРЦ «Тивали»', url: 'https://tivali.by/' },
+                            { name: 'ТРЦ «Diamond City»', url: 'https://diamondcity.by/' },
+                            { name: 'ТРЦ «Титан»', url: 'https://www.titanminsk.by/' },
+                            { name: 'ARENAcity', url: 'https://family.by/spravka/shop/trc/12320-torgovo-razvlekatelnyy-centr-arenacity.html' }
+                        ]
+                    }
+                ]
+            },
+            { name: 'Средний', url: 'https://greencityminsk.by/' },
+            {
+                name: 'Большие',
+                submenu: [
+                    { name: 'ТРЦ «Dana Mall»', url: 'https://dana-mall.com/' },
+                    { name: 'ТРЦ «Diamond City»', url: 'https://diamondcity.by/' }
+                ]
             }
-            
-            // Add menu items
-            MenuItemsA.forEach(function(item) {
-                var li = document.createElement('li');
+        ];
+
+        function ShowMenu(MenuItemsA, ParentElem, position = 'bottom') {
+            const menu = document.createElement('ul');
+            menu.className = 'vertical-menu';
+            if (position === 'right') {
+                menu.classList.add('right');
+            } else {
+                menu.classList.add('bottom');
+            }
+
+            MenuItemsA.forEach(item => {
+                const li = document.createElement('li');
                 li.className = 'menu-item';
                 
                 if (item.submenu) {
-                    li.classList.add('has-submenu');
+                    const div = document.createElement('div');
+                    div.className = 'has-submenu';
+                    div.textContent = item.name;
                     
-                    var span = document.createElement('span');
-                    span.textContent = item.name;
-                    li.appendChild(span);
-                    
-                    li.addEventListener('click', function(e) {
+                    div.addEventListener('click', function(e) {
                         e.stopPropagation();
-                        
-                        // Close all other open menus at this level
-                        var siblings = this.parentNode.children;
-                        for (var i = 0; i < siblings.length; i++) {
-                            if (siblings[i] !== this) {
-                                siblings[i].classList.remove('active');
+                        const siblings = Array.from(this.parentElement.parentElement.children);
+                        siblings.forEach(sibling => {
+                            if (sibling !== this.parentElement && sibling.querySelector('.vertical-menu')) {
+                                sibling.querySelector('.vertical-menu').style.display = 'none';
                             }
-                        }
+                        });
                         
-                        // Toggle current menu
-                        this.classList.toggle('active');
+                        const existingSubmenu = this.parentElement.querySelector('.vertical-menu');
+                        if (existingSubmenu) {
+                            existingSubmenu.style.display = existingSubmenu.style.display === 'none' ? 'block' : 'none';
+                        } else {
+                            ShowMenu(item.submenu, this.parentElement, 'right');
+                        }
                     });
                     
-                    // Create submenu
-                    ShowMenu(item.submenu, li);
+                    li.appendChild(div);
                 } else {
-                    var a = document.createElement('a');
+                    const a = document.createElement('a');
                     a.textContent = item.name;
                     a.href = item.url || '#';
                     li.appendChild(a);
@@ -165,14 +172,55 @@
                 
                 menu.appendChild(li);
             });
-            
+
+            const existingMenu = ParentElem.querySelector('.vertical-menu');
+            if (existingMenu) {
+                ParentElem.removeChild(existingMenu);
+            }
+
             ParentElem.appendChild(menu);
+            menu.style.display = 'block';
         }
-        
-        // Initialize the menu when page loads
+
         document.addEventListener('DOMContentLoaded', function() {
-            var container = document.getElementById('menu-container');
-            ShowMenu(MenuA, container);
+            const mainMenu = document.getElementById('mainMenu');
+            
+            MenuA.forEach(item => {
+                const li = document.createElement('li');
+                li.className = 'menu-item';
+                
+                if (item.submenu) {
+                    const div = document.createElement('div');
+                    div.className = 'has-submenu';
+                    div.textContent = item.name;
+                    
+                    div.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const siblings = Array.from(this.parentElement.parentElement.children);
+                        siblings.forEach(sibling => {
+                            if (sibling !== this.parentElement && sibling.querySelector('.vertical-menu')) {
+                                sibling.querySelector('.vertical-menu').style.display = 'none';
+                            }
+                        });
+                        
+                        const existingSubmenu = this.parentElement.querySelector('.vertical-menu');
+                        if (existingSubmenu) {
+                            existingSubmenu.style.display = existingSubmenu.style.display === 'none' ? 'block' : 'none';
+                        } else {
+                            ShowMenu(item.submenu, this.parentElement);
+                        }
+                    });
+                    
+                    li.appendChild(div);
+                } else {
+                    const a = document.createElement('a');
+                    a.textContent = item.name;
+                    a.href = item.url || '#';
+                    li.appendChild(a);
+                }
+                
+                mainMenu.appendChild(li);
+            });
         });
     </script>
 </body>

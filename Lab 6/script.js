@@ -73,7 +73,7 @@ function addGame() {
     }
 
     storage.AddValue(key, value);
-    localStorageHandler.AddValue(key, value); // Сохраняем в локальное хранилище
+    localStorageHandler.AddValue(key, value);
     alert(`Добавлено: ${key} - ${value}`);
 }
 
@@ -84,18 +84,23 @@ function deleteGame() {
         return;
     }
     storage.DeleteValue(key);
-    localStorageHandler.DeleteValue(key); // Удаляем из локального хранилища
+    localStorageHandler.DeleteValue(key);
 }
 
 function getGameInfo() {
-    const key = prompt("Введите название игры:");
-    if (key === null) {
-        alert("Вы отказались делать запрос информации об игре.");
-        return;
+    try {
+        const key = prompt("Введите название игры:");
+        if (key === null || key.trim() === '') {
+            alert("Название игры не может быть пустым.");
+            return;
+        }
+
+        const info = storage.GetValue(key) || localStorageHandler.GetValue(key);
+        alert(info ? `${key}: ${info}` : "Игра не найдена");
+    } catch (e) {
+        console.error('Ошибка в getGameInfo:', e);
+        alert(`Произошла ошибка: ${e.message}`);
     }
-    const info = storage.GetValue(key);
-    const localInfo = localStorageHandler.GetValue(key);
-    alert(info !== undefined ? `${key}: ${info}` : "Нет информации");
 }
 
 function listAllGames() {
@@ -108,7 +113,6 @@ function listAllGames() {
         console.log("Нет информации");
     }
 
-    // Перечисляем все игры из локального хранилища
     const localKeys = localStorageHandler.GetKeys();
     if (localKeys.length > 0) {
         localKeys.forEach(key => {
